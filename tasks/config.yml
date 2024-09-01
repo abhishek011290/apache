@@ -1,0 +1,14 @@
+---
+- name: setting up apache web server
+  template:
+    src: templates/index.j2     //no need to give absolute path as s/m understands everything
+    dest: /var/www/html/index.html
+- name: allowing http traffic In the firewall
+  firewalld:
+    service: httpd
+    permanent: yes
+    state: enabled
+- name: reloading the http traffic in the firewall
+  firewalld:
+    name: firewalld
+    state: reloaded

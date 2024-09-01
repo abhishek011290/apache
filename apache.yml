@@ -1,0 +1,29 @@
+---
+- name: motd file creation playbook.
+  hosts: hosts
+  become: true
+  tasks:
+    - name: Installing apache latest packages
+      yum:
+        name: httpd
+        state: latest
+    - name: starting and enabling apache
+      service:
+        name: httpd
+        state: started
+        enabled: true
+    - name: setting up apache web server
+      template:
+        src: /home/ec2-user/playbooks/index.j2 
+        dest: /var/www/html
+    - name: restarting the apache httpd service
+      service:
+        name: httpd
+        state: restarted
+        enabled: true
+    - name: reload the firewall service
+      service:
+        name: firewalld
+        state: reloaded
+...
+        
